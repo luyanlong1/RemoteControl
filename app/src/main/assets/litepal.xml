@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value = "remote_control" />
+    <version value = "3"/>
+    <list>
+        <mapping class="com.example.administrator.remotecontrol.db.SceneData" />
+        <mapping class="com.example.administrator.remotecontrol.db.SceneSonData"/>
+    </list>
+</litepal>

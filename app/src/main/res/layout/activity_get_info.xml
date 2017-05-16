@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="@mipmap/bg3">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:weightSum="1"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="4dp"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:id="@+id/back"
+            android:background="#00000000"
+            android:layout_marginRight="4dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/button_back" />
+
+        <TextView
+            android:layout_width="108dp"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:layout_gravity="center"
+            android:textColor="#faf7fa" />
+
+        <TextView
+            android:layout_width="226dp"
+            android:layout_height="wrap_content"
+            android:text="获取设备"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            android:textColor="#faf7fa" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="140dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+        <EditText
+            android:id="@+id/ipAddress"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.93"
+            android:layout_gravity="center_vertical"
+            android:hint="网关IP"
+            android:gravity="center"
+            android:padding="15px"
+            android:background="@drawable/edittext_account"
+            android:textColor="#faf7fa"
+            android:textColorHint="#bfbfbf"
+            android:textCursorDrawable="@null"/>
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+        <EditText
+            android:id="@+id/netAccount"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.65"
+            android:layout_gravity="center_vertical"
+            android:hint="网关登录名"
+            android:gravity="center"
+            android:padding="15px"
+            android:background="@drawable/edittext_account"
+            android:textColor="#fffafa"
+            android:textColorHint="#bfbfbf"
+            android:textCursorDrawable="@null"/>
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+        <EditText
+            android:id="@+id/netPassword"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.65"
+            android:layout_gravity="center_vertical"
+            android:hint="网关密码"
+            android:gravity="center"
+            android:inputType="textPassword"
+            android:padding="15px"
+            android:background="@drawable/edittext_password"
+            android:textColor="#fffafa"
+            android:textColorHint="#bfbfbf"
+            android:textCursorDrawable="@null"/>
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/netLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="确定"
+            android:layout_weight="0.06"
+            android:elevation="0dp"
+            android:padding="12px"
+            android:background="@drawable/button_login"
+            android:textColor="#faf7fa"
+            android:textSize="18dp"/>
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>

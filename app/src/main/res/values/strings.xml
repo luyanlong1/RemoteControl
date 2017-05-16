@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RemoteControl</string>
+    <string name="title_activity_get_info">GetInfo</string>
+    <string name="title_activity_choose_son_scene">ChooseSonScene</string>
+</resources>
