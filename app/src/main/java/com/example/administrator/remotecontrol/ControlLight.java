@@ -60,6 +60,7 @@ public class ControlLight extends MainActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ControlLight.this,PersonalCenter.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

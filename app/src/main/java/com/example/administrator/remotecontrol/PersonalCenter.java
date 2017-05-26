@@ -42,4 +42,5 @@ public class PersonalCenter extends AppCompatActivity {
             }
         });
     }
+
 }

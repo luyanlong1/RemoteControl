@@ -1,6 +1,9 @@
 package com.example.administrator.remotecontrol;
 
+import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,9 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ControlAir extends MainActivity {
-    private ImageButton backButton,userButton,airTemperUp,airTemperDown,airStyle,airWindScale,airWindDirection;
+    private ImageButton backButton,userButton,airTemperUp,airTemperDown,airStyle,airWindScale,airWindDirection,airSleepButton;
     private TextView airStyleView,airWindView,airTemperView,airDegreeView,airWindDirectionView;
     private ImageView ariStyleIcon;
+    private SharedPreferences pref;
+    Boolean isCheck;
 
     double item = 23.0;
     int flagStyle = 0;
@@ -23,6 +28,10 @@ public class ControlAir extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control_air);
+        initView();
+        init();
+    }
+    private void initView() {
         backButton = (ImageButton) findViewById(R.id.back_button);
         userButton = (ImageButton) findViewById(R.id.user_button);
         airTemperUp = (ImageButton) findViewById(R.id.air_temper_up);
@@ -36,16 +45,27 @@ public class ControlAir extends MainActivity {
         airDegreeView = (TextView) findViewById(R.id.air_degree);
         airWindDirectionView = (TextView)findViewById(R.id.air_weed_direction_view);
         ariStyleIcon = (ImageView) findViewById(R.id.ari_style_icon);
-
+        airSleepButton = (ImageButton) findViewById(R.id.air_sleep_button);
+        pref = getSharedPreferences("isNotVibrator",MODE_APPEND);
+    }
+    private void init() {
+        isCheck = pref.getBoolean("isNotVibrator",false);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ControlAir.this.finish();
             }
         });
+        airSleepButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isNotVibrator();
+            }
+        });
         airTemperUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isNotVibrator();
                 if (item < 30) {
                     item += 1;
                     airTemperView.setText(""+item);
@@ -57,6 +77,7 @@ public class ControlAir extends MainActivity {
         airTemperDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isNotVibrator();
                 if (item > 17) {
                     item -= 1;
                     airTemperView.setText(""+item);
@@ -68,6 +89,7 @@ public class ControlAir extends MainActivity {
         airStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isNotVibrator();
                 if (flagStyle==0){
                     flagStyle = 1;
                     airStyleView.setText("制热");
@@ -99,6 +121,7 @@ public class ControlAir extends MainActivity {
         airWindScale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isNotVibrator();
                 if (flagWind == 0){
                     flagWind = 1;
                     airWindView.setText("微风");
@@ -117,6 +140,7 @@ public class ControlAir extends MainActivity {
         airWindDirection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isNotVibrator();
                 if (flagWindDirection == 0){
                     flagWindDirection = 1;
                     airWindDirectionView.setText("上下扫风");
@@ -134,8 +158,15 @@ public class ControlAir extends MainActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ControlAir.this,PersonalCenter.class);
                 startActivity(intent);
+                finish();
             }
         });
-
+    }
+    //按键震动
+    private void isNotVibrator(){
+        if (isCheck){
+            Vibrator vibrator = (Vibrator)getSystemService(Service.VIBRATOR_SERVICE);
+            vibrator.vibrate(new long[]{0,100},-1);
+        }
     }
 }
