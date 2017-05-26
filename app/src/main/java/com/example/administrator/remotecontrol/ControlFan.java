@@ -1,26 +1,33 @@
 package com.example.administrator.remotecontrol;
 
+import android.accounts.NetworkErrorException;
+import android.app.Dialog;
 import android.app.Service;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Vibrator;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ControlFan extends MainActivity {
     private SharedPreferences pref;
     private ImageButton backButton,userButton;
     private ImageButton fanNormalWindButton,fanNatureWindButton,fanSilentWindButton,fanSleepWindButton;
     private ImageView fanTypeView;
-    private ImageView fanShakeHead;
+    private ImageButton fanShakeHead,fanClockButton;
     private SeekBar fanWindLevelBar;
-    private TextView fanWindLevelView;
+    private TextView fanWindLevelView,fanTimeView;
     Boolean isCheck;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +44,11 @@ public class ControlFan extends MainActivity {
         fanSilentWindButton = (ImageButton) findViewById(R.id.fan_silent_wind_button);
         fanSleepWindButton = (ImageButton) findViewById(R.id.fan_sleep_wind_button);
         fanTypeView = (ImageView) findViewById(R.id.fan_wind_type_view);
-        fanShakeHead = (ImageView) findViewById(R.id.fan_shake_button);
+        fanShakeHead = (ImageButton) findViewById(R.id.fan_shake_button);
+        fanClockButton = (ImageButton) findViewById(R.id.fan_clock_button);
         fanWindLevelBar = (SeekBar) findViewById(R.id.fan_wind_level_bar);
         fanWindLevelView = (TextView) findViewById(R.id.fan_wind_level_view);
+        fanTimeView = (TextView) findViewById(R.id.fan_time_view);
         pref = getSharedPreferences("isNotVibrator",MODE_APPEND);
     }
     private void init() {
@@ -94,6 +103,40 @@ public class ControlFan extends MainActivity {
             @Override
             public void onClick(View view) {
                 isNotVibrator();
+            }
+        });
+        fanClockButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater inflater = LayoutInflater.from(ControlFan.this);
+                View view1  = inflater.inflate(R.layout.view_number_picker_dialog,null);
+                final NumberPicker numberPickerHour = (NumberPicker) view1.findViewById(R.id.numberpicker_hour);
+                final NumberPicker numberPickerMin = (NumberPicker) view1.findViewById(R.id.numberpicker_minute);
+                final String strsHour[]=new String[]{"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20"};
+                final String strsMin[]=new String[]{"00","10","20","30","40","50"};
+                numberPickerHour.setDisplayedValues(strsHour);
+                numberPickerHour.setMaxValue(strsHour.length - 1);
+                numberPickerHour.setMinValue(0);
+                numberPickerMin.setDisplayedValues(strsMin);
+                numberPickerMin.setMaxValue(strsMin.length - 1);
+                numberPickerMin.setMinValue(0);
+
+                Dialog dialog = new AlertDialog.Builder(ControlFan.this)
+                        .setTitle("设置时间")
+                        .setPositiveButton("设置", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                fanTimeView.setText(strsHour[  numberPickerHour.getValue()]+":"+strsMin[  numberPickerMin.getValue()]);
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .setView(view1).create();
+                dialog.show();
             }
         });
     }
