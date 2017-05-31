@@ -20,12 +20,18 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class ControlFan extends MainActivity {
     private SharedPreferences pref;
     private ImageButton backButton,userButton;
     private ImageButton fanNormalWindButton,fanNatureWindButton,fanSilentWindButton,fanSleepWindButton;
     private ImageView fanTypeView;
-    private ImageButton fanShakeHead,fanClockButton;
+    private ImageButton fanShakeHead,fanClockButton,fanSwitch;
     private SeekBar fanWindLevelBar;
     private TextView fanWindLevelView,fanTimeView;
     Boolean isCheck;
@@ -37,6 +43,7 @@ public class ControlFan extends MainActivity {
         init();
     }
     private void initView() {
+        fanSwitch = (ImageButton) findViewById(R.id.fan_off_button);
         backButton = (ImageButton) findViewById(R.id.back_button);
         userButton = (ImageButton) findViewById(R.id.user_button);
         fanNormalWindButton = (ImageButton) findViewById(R.id.fan_normal_wind_button);
@@ -75,6 +82,8 @@ public class ControlFan extends MainActivity {
             @Override
             public void onClick(View view) {
                 fanTypeView.setBackgroundResource(R.mipmap.fan_normal_icon);
+                String url = "http://192.168.191.1:8080/main?action=fanNormalWindButton";
+                sendHttpRequest(url);
                 isNotVibrator();
             }
         });
@@ -82,6 +91,8 @@ public class ControlFan extends MainActivity {
             @Override
             public void onClick(View view) {
                 fanTypeView.setBackgroundResource(R.mipmap.fan_nature_icon);
+                String url = "http://192.168.191.1:8080/main?action=fanNatureWindButton";
+                sendHttpRequest(url);
                 isNotVibrator();
             }
         });
@@ -89,6 +100,8 @@ public class ControlFan extends MainActivity {
             @Override
             public void onClick(View view) {
                 fanTypeView.setBackgroundResource(R.mipmap.fan_silent_icon);
+                String url = "http://192.168.191.1:8080/main?action=fanSilentWindButton";
+                sendHttpRequest(url);
                 isNotVibrator();
             }
         });
@@ -96,12 +109,23 @@ public class ControlFan extends MainActivity {
             @Override
             public void onClick(View view) {
                 fanTypeView.setBackgroundResource(R.mipmap.fan_sleep_icon);
+                String url = "http://192.168.191.1:8080/main?action=fanSleepWindButton";
+                sendHttpRequest(url);
                 isNotVibrator();
+            }
+        });
+        fanSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "http://192.168.191.1:8080/main?action=fanSwitch";
+                sendHttpRequest(url);
             }
         });
         fanShakeHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String url = "http://192.168.191.1:8080/main?action=fanShakeHead";
+                sendHttpRequest(url);
                 isNotVibrator();
             }
         });
@@ -127,6 +151,8 @@ public class ControlFan extends MainActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 fanTimeView.setText(strsHour[  numberPickerHour.getValue()]+":"+strsMin[  numberPickerMin.getValue()]);
+                                String url = "http://192.168.191.1:8080/main?action=fanClockButton&action2="+strsHour[  numberPickerHour.getValue()]+":"+strsMin[  numberPickerMin.getValue()];
+                                sendHttpRequest(url);
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -137,6 +163,7 @@ public class ControlFan extends MainActivity {
                         })
                         .setView(view1).create();
                 dialog.show();
+
             }
         });
     }
@@ -147,17 +174,37 @@ public class ControlFan extends MainActivity {
             vibrator.vibrate(new long[]{0,100},-1);
         }
     }
+    //发送HTTP请求方法
+    private void sendHttpRequest(final String s){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                try{
+                    URL url = new URL(s);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(8000);
+                    connection.setReadTimeout(8000);
+                    InputStream inputStream = connection.getInputStream();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
     private SeekBar.OnSeekBarChangeListener seekListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
             fanWindLevelView.setText(""+i);
+            String url = "http://192.168.191.1:8080/main?action=fanWindLevel&action2="+i;
+            sendHttpRequest(url);
         }
-
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-
         }
-
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
 
