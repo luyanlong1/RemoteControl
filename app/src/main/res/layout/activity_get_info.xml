@@ -60,6 +60,7 @@
             android:layout_weight="0.93"
             android:layout_gravity="center_vertical"
             android:hint="网关IP"
+            android:text="192.168.191.1:8080/main?"
             android:gravity="center"
             android:padding="15px"
             android:background="@drawable/edittext_account"
